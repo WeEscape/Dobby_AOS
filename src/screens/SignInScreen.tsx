@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 import { StyleSheet, ActivityIndicator, View, Alert } from 'react-native';
 import { login, logout, getProfile as getKakaoProfile, unlink } from '@react-native-seoul/kakao-login';
@@ -27,15 +27,17 @@ const SignInScreen = () => {
     try {
       const token = await login();
       setResult(JSON.stringify(token));
-      console.log('token', `${token?.accessToken}`);
+      console.log('token', token?.accessToken);
       console.log('env', API_HOST);
       setLoading(true);
-      const response = await axios.post(`${API_HOST}/login`, {
-        access_token: token?.accessToken,
+      const response = await axios.post(`${API_HOST}/auth/login`, {
+        social_access_token: token?.accessToken,
         social_type: 'kakao',
       });
+
+      console.log('response', response);
+
       setLoading(false);
-      console.log('response', response.data);
 
       dispatch(
         userSlice.actions.setToken({
@@ -49,7 +51,7 @@ const SignInScreen = () => {
     } catch (err) {
       const axiosError = err as AxiosError;
       // console.error('login err', err.response);
-      if (err.response) {
+      if (axiosError.response) {
         Alert.alert('알림', axiosError.response.data.message);
       }
     } finally {
@@ -57,7 +59,48 @@ const SignInScreen = () => {
     }
   };
 
-  console.log('result', result);
+  //앱 실행 시, 토큰이 있으면 토큰을 재발급 시키고 로그인하는 코드
+  useEffect(() => {
+    const getTokenAndRefresh = async () => {
+      try {
+        const token = await EncryptedStorage.getItem('refreshToken');
+        console.log('token', token);
+        if (!token) {
+          return;
+        }
+        const response = await axios.post(
+          `${API_HOST}/auth/tokens`,
+          {
+            refresh_token: token,
+          },
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        dispatch(
+          userSlice.actions.setUser({
+            name: response.data.name,
+            email: response.data.email,
+            accessToken: response.data.accessToken,
+          })
+        );
+        await EncryptedStorage.setItem('refreshToken', response.data.refreshToken);
+      } catch (error) {
+        console.log('err', error);
+        if ((error as AxiosError).response?.data.code === 'expired') {
+          Alert.alert('알림', '다시 로그인 해주세요.');
+        }
+      } finally {
+        //TODO: 스플래시 스크린 없애기
+      }
+    };
+    getTokenAndRefresh();
+  }, [dispatch]);
+
+  // console.log('result', result);
 
   return (
     <View style={styles.container}>
