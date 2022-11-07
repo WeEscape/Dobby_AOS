@@ -1,13 +1,16 @@
 import React from 'react';
 import { ThemeProvider } from '@rneui/themed';
 import Router from './src/routes/Router';
-import { View, Text } from 'react-native';
+import { Provider } from 'react-redux';
+import store from './src/store';
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <Router />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider>
+        <Router />
+      </ThemeProvider>
+    </Provider>
   );
 };
 

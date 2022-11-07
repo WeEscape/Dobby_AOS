@@ -1,22 +1,59 @@
 import React, { useState } from 'react';
-import { StyleSheet, ActivityIndicator, View } from 'react-native';
+import axios, { AxiosError } from 'axios';
+import { StyleSheet, ActivityIndicator, View, Alert } from 'react-native';
 import { login, logout, getProfile as getKakaoProfile, unlink } from '@react-native-seoul/kakao-login';
 import { Image, Text, Button, Icon } from '@rneui/themed';
+import EncryptedStorage from 'react-native-encrypted-storage';
 import IconImage from '../assets/icon/logo.png';
+import { API_HOST } from '@env';
+import userSlice from '../slices/user';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../store';
 
 const $colorWhite = '#ffffff';
 const $TITLEFONTCOLOR = '#414141';
 
 const SignInScreen = () => {
   const [result, setResult] = useState<string>('');
+  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const isLoggedIn = useSelector((state: RootState) => !!state.user.accessToken);
+  console.log('isLoggedIn', isLoggedIn);
 
   const signInWithKakao = async (): Promise<void> => {
+    if (loading) {
+      return;
+    }
     try {
       const token = await login();
       setResult(JSON.stringify(token));
+      console.log('token', `${token?.accessToken}`);
+      console.log('env', API_HOST);
+      setLoading(true);
+      const response = await axios.post(`${API_HOST}/login`, {
+        access_token: token?.accessToken,
+        social_type: 'kakao',
+      });
+      setLoading(false);
+      console.log('response', response.data);
+
+      dispatch(
+        userSlice.actions.setToken({
+          accessToken: response.data.accessToken,
+          // refreshToken: response.data.refreshToken,
+        })
+      );
+
+      await EncryptedStorage.setItem('refreshToken', response.data.refreshToken);
+      Alert.alert('알림', '로그인에 성공했습니다.');
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error('login err', err);
+      const axiosError = err as AxiosError;
+      // console.error('login err', err.response);
+      if (err.response) {
+        Alert.alert('알림', axiosError.response.data.message);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,6 +76,7 @@ const SignInScreen = () => {
           marginHorizontal: 50,
           marginVertical: 15,
         }}
+        disabled={loading}
         onPress={() => {
           signInWithKakao();
         }}
