@@ -18,7 +18,6 @@ const SignInScreen = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const isLoggedIn = useSelector((state: RootState) => !!state.user.accessToken);
-  console.log('isLoggedIn', isLoggedIn);
 
   const signInWithKakao = async (): Promise<void> => {
     if (loading) {
@@ -58,7 +57,8 @@ const SignInScreen = () => {
       setLoading(false);
     }
   };
-
+  //router단으로 올리기
+  //router 단에서 스플레쉬 이미지 추가
   //앱 실행 시, 토큰이 있으면 토큰을 재발급 시키고 로그인하는 코드
   useEffect(() => {
     const getTokenAndRefresh = async () => {
