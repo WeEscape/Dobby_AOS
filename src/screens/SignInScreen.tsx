@@ -14,10 +14,11 @@ const $colorWhite = '#ffffff';
 const $TITLEFONTCOLOR = '#414141';
 
 const SignInScreen = () => {
-  const [result, setResult] = useState<string>('');
+  const [result, setResult] = useState();
   const [loading, setLoading] = useState(false);
+  const [errorStatus, setErrorStatus] = useState(0);
   const dispatch = useAppDispatch();
-  const isLoggedIn = useSelector((state: RootState) => !!state.user.accessToken);
+  const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
 
   const signInWithKakao = async (): Promise<void> => {
     if (loading) {
@@ -40,7 +41,8 @@ const SignInScreen = () => {
 
       dispatch(
         userSlice.actions.setToken({
-          accessToken: response.data.accessToken,
+          accessToken: response.data.social_access_token,
+          social_type: response.data.social_type,
           // refreshToken: response.data.refreshToken,
         })
       );
@@ -51,54 +53,45 @@ const SignInScreen = () => {
       const axiosError = err as AxiosError;
       // console.error('login err', err.response);
       if (axiosError.response) {
+        setErrorStatus(axiosError.response.status);
+
+        console.log('error', axiosError.response);
         Alert.alert('알림', axiosError.response.data.message);
       }
     } finally {
       setLoading(false);
     }
   };
-  //router단으로 올리기
-  //router 단에서 스플레쉬 이미지 추가
-  //앱 실행 시, 토큰이 있으면 토큰을 재발급 시키고 로그인하는 코드
-  useEffect(() => {
-    const getTokenAndRefresh = async () => {
-      try {
-        const token = await EncryptedStorage.getItem('refreshToken');
-        console.log('token', token);
-        if (!token) {
-          return;
-        }
-        const response = await axios.post(
-          `${API_HOST}/auth/tokens`,
-          {
-            refresh_token: token,
-          },
-          {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          }
-        );
 
-        dispatch(
-          userSlice.actions.setUser({
-            name: response.data.name,
-            email: response.data.email,
-            accessToken: response.data.accessToken,
-          })
-        );
-        await EncryptedStorage.setItem('refreshToken', response.data.refreshToken);
-      } catch (error) {
-        console.log('err', error);
-        if ((error as AxiosError).response?.data.code === 'expired') {
-          Alert.alert('알림', '다시 로그인 해주세요.');
-        }
-      } finally {
-        //TODO: 스플래시 스크린 없애기
-      }
-    };
-    getTokenAndRefresh();
-  }, [dispatch]);
+  useEffect(() => {
+    console.log('error로 분기 처리1', errorStatus);
+    if (errorStatus === 404) {
+      console.log('error로 분기 처리2', result);
+      const response = axios.post(`${API_HOST}/auth/register`, {
+        social_access_token: result?.accessToken,
+        social_type: 'kakao',
+      });
+      console.log('회원가입response', response);
+      dispatch(
+        userSlice.actions.setUser({
+          user_id: response.data.user_id,
+          social_id: response.data.social_id,
+          social_type: response.data.social_type,
+          name: response.data.name,
+          email: response.data.email,
+          profile_url: response.data.profile_url,
+          profile_color: response.data.profile_color,
+          accessToken: response.data.accessToken,
+          is_connect: response.data.is_connect,
+          last_connected_at: response.data.last_connected_at,
+          created_at: response.data.created_at,
+          updated_at: response.data.updated_at,
+          deleted_at: response.data.deleted_at,
+          group_ids: response.data.group_ids,
+        })
+      );
+    }
+  }, [errorStatus]);
 
   // console.log('result', result);
 

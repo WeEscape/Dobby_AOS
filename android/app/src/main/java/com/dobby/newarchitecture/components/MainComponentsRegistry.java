@@ -1,4 +1,4 @@
-package com.dobby_rn_cli.newarchitecture.components;
+package com.dobby.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

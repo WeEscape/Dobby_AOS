@@ -1,4 +1,4 @@
-package com.dobby_rn_cli.newarchitecture.modules;
+package com.dobby.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
