@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">dobby</string>
     <string name="kakao_app_key">d6ec6e4297f621bddc8086dc42534a10</string>
+    <string name="server_client_id">157795172277-6p3aukudv7s6mi7ps9l1lhhbciemj4v2.apps.googleusercontent.com</string>
 </resources>
