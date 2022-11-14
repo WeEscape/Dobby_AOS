@@ -1,4 +1,4 @@
-package com.dobby_rn_cli;
+package com.dobby;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -15,7 +15,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "dobby_RN_CLI";
+    return "dobby";
   }
   @Override
   protected void onCreate(Bundle savedInstanceState) {

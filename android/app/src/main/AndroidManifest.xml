@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.dobby_rn_cli">
+  package="com.dobby">
 
     <uses-permission android:name="android.permission.INTERNET" />
 <!-- defalut는 android:allowBackup="false"-->

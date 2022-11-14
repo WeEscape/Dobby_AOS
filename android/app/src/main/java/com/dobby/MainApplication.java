@@ -1,4 +1,4 @@
-package com.dobby_rn_cli;
+package com.dobby;
 
 import android.app.Application;
 import android.content.Context;
