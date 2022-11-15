@@ -107,7 +107,7 @@ const SignInScreen = () => {
       <Button
         title="카카오로 계속하기"
         buttonStyle={{
-          backgroundColor: 'rrgb(247, 230, 0)',
+          backgroundColor: 'rgb(247, 230, 0)',
           borderRadius: 12,
         }}
         titleStyle={{ color: '#414141', fontFamily: 'Noto Sans KR', fontSize: 14, fontWeight: '700' }}
