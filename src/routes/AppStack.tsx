@@ -1,9 +1,9 @@
 // 앱 라우터
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useLayoutEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, StyleSheet } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
 import { Image } from '@rneui/themed';
 import Daily from '../screens/Daily';
 import Weekly from '../screens/Weekly';
@@ -26,8 +26,24 @@ import More_ON from '../assets/icon/more_on.png';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const AppStatck = () => {
-  // 탭스크린 추가
+const RegisterStack = ({ navigation, route }) => {
+  //등록 페이지에서 아래의 탭 아나보이게 처리하는 로직
+  useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    console.log('routeName', routeName);
+    if (routeName === '등록') {
+      navigation.setOptions({ tabBarStyle: { display: 'none' } });
+    }
+  }, [navigation, route]);
+  return (
+    <Stack.Navigator initialRouteName="등록">
+      <Stack.Screen name="등록" component={Register} options={{ headerShown: false }} />
+      <Stack.Screen name="SecondView" component="" options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+
+const AppStatck = ({ navigation, route }) => {
   return (
     <>
       <Tab.Navigator initialRouteName="주간">
@@ -51,7 +67,7 @@ const AppStatck = () => {
         />
         <Tab.Screen
           name="등록"
-          component={Register}
+          component={RegisterStack}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return <Image style={styles.tabLogo} source={focused ? Register_ON : Register_OFF} />;
