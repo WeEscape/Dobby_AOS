@@ -1,5 +1,11 @@
 PODS:
   - Alamofire (5.6.2)
+  - AppAuth (1.6.0):
+    - AppAuth/Core (= 1.6.0)
+    - AppAuth/ExternalUserAgent (= 1.6.0)
+  - AppAuth/Core (1.6.0)
+  - AppAuth/ExternalUserAgent (1.6.0):
+    - AppAuth/Core
   - boost (1.76.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -74,6 +80,14 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
+  - GoogleSignIn (6.2.4):
+    - AppAuth (~> 1.5)
+    - GTMAppAuth (~> 1.3)
+    - GTMSessionFetcher/Core (< 3.0, >= 1.1)
+  - GTMAppAuth (1.3.1):
+    - AppAuth/Core (~> 1.6)
+    - GTMSessionFetcher/Core (< 3.0, >= 1.5)
+  - GTMSessionFetcher/Core (2.3.0)
   - hermes-engine (0.70.4)
   - kakao-login (5.2.3):
     - KakaoSDKAuth (= 2.11.1)
@@ -407,6 +421,9 @@ PODS:
     - React
   - RNGestureHandler (2.8.0):
     - React-Core
+  - RNGoogleSignin (8.2.1):
+    - GoogleSignIn (~> 6.2)
+    - React-Core
   - RNReanimated (2.12.0):
     - DoubleConversion
     - FBLazyVector
@@ -437,6 +454,8 @@ PODS:
   - RNScreens (3.18.2):
     - React-Core
     - React-RCTImage
+  - RNSVG (13.5.0):
+    - React-Core
   - RNVectorIcons (9.2.0):
     - React-Core
   - SocketRocket (0.6.0)
@@ -513,14 +532,17 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AppAuth
     - CocoaAsyncSocket
     - Flipper
     - Flipper-Boost-iOSX
@@ -532,6 +554,9 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - fmt
+    - GoogleSignIn
+    - GTMAppAuth
+    - GTMSessionFetcher
     - KakaoSDKAuth
     - KakaoSDKCommon
     - KakaoSDKUser
@@ -627,10 +652,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/masked-view"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNGoogleSignin:
+    :path: "../node_modules/@react-native-google-signin/google-signin"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -638,6 +667,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -654,6 +684,9 @@ SPEC CHECKSUMS:
   FlipperKit: cbdee19bdd4e7f05472a66ce290f1b729ba3cb86
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
+  GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
+  GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
+  GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   hermes-engine: 3623325e0d0676a45fbc544d72c57dd79fce7446
   kakao-login: d506fe760be606181e206f89bf42fd082720a068
   KakaoSDKAuth: bb2dfa7be30daa8403c9cfc8001aa6fde7a5b779
@@ -697,13 +730,15 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
+  RNGoogleSignin: 3db2d849581299f425f5b61b90cb482a9e68c7af
   RNReanimated: 2a91e85fcd343f8af3c58d3425b99fdd285590a5
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
+  RNSVG: 38ca962c970dbce1ca38991a5aebf26d163f9efb
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   Yoga: 1f02ef4ce4469aefc36167138441b27d988282b1
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: a54841e4c66a50dfa4413b975467e959e41d88cf
+PODFILE CHECKSUM: b4bd1df8ff28e156515c071a389f48ff6fa6bb6d
 
 COCOAPODS: 1.11.3

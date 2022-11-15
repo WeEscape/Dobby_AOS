@@ -5,6 +5,7 @@ import { login, logout, getProfile as getKakaoProfile, unlink } from '@react-nat
 import { Image, Text, Button, Icon } from '@rneui/themed';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import IconImage from '../assets/icon/logo.png';
+import KakaoLogoImage from '../assets/icon/kakao_logo.png';
 import { API_HOST } from '@env';
 import userSlice from '../slices/user';
 import { useSelector } from 'react-redux';
@@ -51,6 +52,9 @@ const SignInScreen = () => {
       Alert.alert('알림', '로그인에 성공했습니다.');
     } catch (err) {
       const axiosError = err as AxiosError;
+      if (err) {
+        Alert.alert('알림_not통신', err);
+      }
       // console.error('login err', err.response);
       if (axiosError.response) {
         setErrorStatus(axiosError.response.status);
@@ -117,8 +121,7 @@ const SignInScreen = () => {
           signInWithKakao();
         }}
       >
-        {/* 카카오 아이콘 넣기 */}
-        <Icon name="home" color="white" />
+        <Image style={styles.kakaoIcon} source={KakaoLogoImage} />
         카카오로 계속하기
       </Button>
     </View>
@@ -146,7 +149,13 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     width: 50,
   },
+  kakaoIcon: {
+    width: 16,
+    height: 14,
+    paddingRight: 10,
+  },
   text: {
+    paddingLeft: 20,
     fontFamily: 'NotoSansKR_500Medium',
     fontWeight: '500',
   },

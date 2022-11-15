@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const HomeScreen = () => {
+const More = () => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
-      <Text>Dobby's project start!!</Text>
+      <Text>더보기(마이페이지)</Text>
     </View>
   );
 };
 
-export default HomeScreen;
+export default More;

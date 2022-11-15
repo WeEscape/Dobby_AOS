@@ -15,9 +15,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <SplashScreen2 />
+        {/* <SplashScreen2 /> */}
         {/* <Text> 안녕</Text> */}
-        {/* <Router /> */}
+        <Router />
       </ThemeProvider>
     </Provider>
   );
