@@ -11,7 +11,8 @@ import HeaderGoBack from '../components/common/header/HeaderGoBack';
 
 const Register = ({ navigation, router }) => {
   useEffect(() => {
-    console.log('===register', navigation.navigate);
+    console.log('===register1', navigation.navigate);
+    console.log('===router', router);
   }, [navigation, router]);
 
   return (

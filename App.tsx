@@ -3,6 +3,7 @@ import { ThemeProvider } from '@rneui/themed';
 import Router from './src/routes/Router';
 import { Provider } from 'react-redux';
 import store from './src/store';
+import { createAppContainer } from 'react-navigation';
 import { Image, Text, Button, Icon } from '@rneui/themed';
 import SplashScreen2 from './src/components/common/splash/index';
 import SplashScreen from 'react-native-splash-screen';

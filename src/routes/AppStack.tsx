@@ -28,13 +28,34 @@ import More_ON from '../assets/icon/more_on.png';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-// const DailyStack = () => {
-//   return (
-//     // <Stack.Navigator initialRouteName="집안일">
-//     // <Stack.Screen name="집안일" component={Daily} options={{ headerShown: false }} />
-//     // </Stack.Navigator>
-//   );
-// };
+const DailyStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="dalyStack">
+      <Stack.Screen name="dalyStack" component={Daily} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+const WeeklyStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="weeklyStack">
+      <Stack.Screen name="weeklyStack" component={Weekly} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+const RegisterStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="registerStack">
+      <Stack.Screen name="registerStack" component={Register} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+const MonthlyStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="monthlyStack">
+      <Stack.Screen name="monthlyStack" component={Monthly} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
 
 // const RegisterStack = ({ navigation, route }) => {
 //   //등록 페이지에서 아래의 탭 아나보이게 처리하는 로직
@@ -56,13 +77,14 @@ const Stack = createStackNavigator();
 //   );
 // };
 
-const AppStatck = () => {
+const AppStatck = ({ navigation, router }) => {
+  console.log('===rotuer_app', router);
   return (
     <NavigationContainer independent={true}>
       <Tab.Navigator screenOptions={({ route }) => ({ headerShown: false })} initialRouteName="weekly">
         <Tab.Screen
           name="daily"
-          component={Daily}
+          component={DailyStack}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return <Image style={styles.tabLogo} source={focused ? Daily_ON : Daily_OFF} />;
@@ -71,7 +93,7 @@ const AppStatck = () => {
         />
         <Tab.Screen
           name="weekly"
-          component={Weekly}
+          component={WeeklyStack}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return <Image style={styles.tabLogo} source={focused ? Weekly_ON : Weekly_OFF} />;
@@ -80,7 +102,7 @@ const AppStatck = () => {
         />
         <Tab.Screen
           name="register"
-          component={Register}
+          component={RegisterStack}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return <Image style={styles.tabLogo} source={focused ? Register_ON : Register_OFF} />;
@@ -91,7 +113,7 @@ const AppStatck = () => {
         />
         <Tab.Screen
           name="monthly"
-          component={Monthly}
+          component={MonthlyStack}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return <Image style={styles.tabLogo} source={focused ? Monthly_ON : Monthly_OFF} />;
