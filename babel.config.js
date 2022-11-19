@@ -12,5 +12,6 @@ module.exports = {
         'verbose': false,
       },
     ],
+    ['babel-plugin-styled-components'],
   ],
 };

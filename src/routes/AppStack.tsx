@@ -2,7 +2,9 @@
 import React, { useLayoutEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createAppContainer } from 'react-navigation';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import { Image } from '@rneui/themed';
 import Daily from '../screens/Daily';
@@ -26,29 +28,40 @@ import More_ON from '../assets/icon/more_on.png';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const RegisterStack = ({ navigation, route }) => {
-  //등록 페이지에서 아래의 탭 아나보이게 처리하는 로직
-  useLayoutEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route);
-    console.log('routeName', routeName);
-    if (routeName === '등록') {
-      navigation.setOptions({ tabBarStyle: { display: 'none' } });
-    }
-  }, [navigation, route]);
-  return (
-    <Stack.Navigator initialRouteName="등록">
-      <Stack.Screen name="등록" component={Register} options={{ headerShown: false }} />
-      <Stack.Screen name="SecondView" component="" options={{ headerShown: false }} />
-    </Stack.Navigator>
-  );
-};
+// const DailyStack = () => {
+//   return (
+//     // <Stack.Navigator initialRouteName="집안일">
+//     // <Stack.Screen name="집안일" component={Daily} options={{ headerShown: false }} />
+//     // </Stack.Navigator>
+//   );
+// };
 
-const AppStatck = ({ navigation, route }) => {
+// const RegisterStack = ({ navigation, route }) => {
+//   //등록 페이지에서 아래의 탭 아나보이게 처리하는 로직
+//   useLayoutEffect(() => {
+//     const routeName = getFocusedRouteNameFromRoute(route);
+//     console.log('routeName1', route);
+//     console.log('routeName2', routeName);
+//     console.log('routeName3', navigation);
+//     if (route === '등록') {
+//       navigation.setOptions({ tabBarStyle: { display: 'none' } });
+//     }
+//   }, [navigation, route]);
+
+//   return (
+//     <Stack.Navigator initialRouteName="등록1">
+//       <Stack.Screen name="등록1" component={Register} options={{ headerShown: false }} />
+//       {/* <Stack.Screen name="SecondView" component={u} options={{ headerShown: false }} /> */}
+//     </Stack.Navigator>
+//   );
+// };
+
+const AppStatck = () => {
   return (
-    <>
-      <Tab.Navigator initialRouteName="주간">
+    <NavigationContainer independent={true}>
+      <Tab.Navigator screenOptions={({ route }) => ({ headerShown: false })} initialRouteName="weekly">
         <Tab.Screen
-          name="일간"
+          name="daily"
           component={Daily}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
@@ -57,7 +70,7 @@ const AppStatck = ({ navigation, route }) => {
           }}
         />
         <Tab.Screen
-          name="주간"
+          name="weekly"
           component={Weekly}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
@@ -66,16 +79,18 @@ const AppStatck = ({ navigation, route }) => {
           }}
         />
         <Tab.Screen
-          name="등록"
-          component={RegisterStack}
+          name="register"
+          component={Register}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return <Image style={styles.tabLogo} source={focused ? Register_ON : Register_OFF} />;
             },
+            headerShown: false,
+            tabBarStyle: { display: 'none' },
           }}
         />
         <Tab.Screen
-          name="월간"
+          name="monthly"
           component={Monthly}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
@@ -84,7 +99,7 @@ const AppStatck = ({ navigation, route }) => {
           }}
         />
         <Tab.Screen
-          name="더보기"
+          name="more"
           component={More}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
@@ -93,7 +108,7 @@ const AppStatck = ({ navigation, route }) => {
           }}
         />
       </Tab.Navigator>
-    </>
+    </NavigationContainer>
   );
 };
 
@@ -105,3 +120,4 @@ const styles = StyleSheet.create({
 });
 
 export default AppStatck;
+// export default createAppContainer(AppStatck);

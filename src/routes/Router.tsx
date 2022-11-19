@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Alert } from 'react-native';
 
 import AppStatck from './AppStack';
@@ -10,6 +11,8 @@ import { useAppDispatch } from '../store';
 import { useSelector } from 'react-redux';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import SplashScreen from 'react-native-splash-screen';
+
+const Stack = createStackNavigator();
 
 const Router = () => {
   //로그인 스토어에 로그인 정보 return 해주고 있으면 home 스크린 없으면 auth스크린으로 이동
@@ -63,7 +66,17 @@ const Router = () => {
     getTokenAndRefresh();
   }, [dispatch]);
 
-  return <NavigationContainer>{authData ? <AppStatck /> : <AuthStack />}</NavigationContainer>;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={({ route }) => ({ headerShown: false })} initialRouteName={AuthStack}>
+        {authData ? (
+          <Stack.Screen name="Root" component={AppStatck} options={{ headerShown: false }} />
+        ) : (
+          <Stack.Screen name="signIn" component={AuthStack} options={{ headerShown: false }} />
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default Router;
