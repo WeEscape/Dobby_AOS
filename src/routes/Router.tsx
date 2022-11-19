@@ -69,7 +69,7 @@ const Router = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={({ route }) => ({ headerShown: false })} initialRouteName={AuthStack}>
+      <Stack.Navigator screenOptions={({ route }) => ({ headerShown: false})} initialRouteName="signIn">
         {authData ? (
           <Stack.Screen name="Root" component={AppStatck} options={{ headerShown: false }} />
         ) : (

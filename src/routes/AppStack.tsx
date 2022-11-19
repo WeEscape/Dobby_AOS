@@ -5,14 +5,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createAppContainer } from 'react-navigation';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet } from 'react-native';
-import { Image } from '@rneui/themed';
+import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, Button } from '@rneui/themed';
 import Daily from '../screens/Daily';
 import Weekly from '../screens/Weekly';
 import Register from '../screens/Register';
 import Monthly from '../screens/Monthly';
 import More from '../screens/More';
-
+import HeaderGoBack from '../components/common/header/HeaderGoBack';
 //이미지 import
 import Daily_OFF from '../assets/icon/daily_off.png';
 import Daily_ON from '../assets/icon/daily_on.png';
@@ -30,60 +30,60 @@ const Stack = createStackNavigator();
 
 const DailyStack = () => {
   return (
-    <Stack.Navigator initialRouteName="dalyStack">
+    <Stack.Navigator initialRouteName="dalyStack" screenOptions={{ cardStyle: { backgroundColor: '#fff' } }}>
       <Stack.Screen name="dalyStack" component={Daily} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
 const WeeklyStack = () => {
   return (
-    <Stack.Navigator initialRouteName="weeklyStack">
+    <Stack.Navigator initialRouteName="weeklyStack" screenOptions={{ cardStyle: { backgroundColor: '#fff' } }}>
       <Stack.Screen name="weeklyStack" component={Weekly} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
-const RegisterStack = () => {
+const RegisterStack = ({ navigation }) => {
   return (
-    <Stack.Navigator initialRouteName="registerStack">
-      <Stack.Screen name="registerStack" component={Register} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="registerStack" screenOptions={{ cardStyle: { backgroundColor: '#fff' } }}>
+      <Stack.Screen
+        name="registerStack"
+        component={Register}
+        options={{
+          headerTitle: '집안일 등록',
+          headerTitleStyle: {
+            fontSize: 16,
+            fontWeight: '900',
+          },
+          headerStyle: {
+            height: 50,
+          },
+          headerTitleAlign: 'center',
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <Button color="#fff" onPress={() => navigation.goBack()}>
+              <HeaderGoBack />
+            </Button>
+          ),
+        }}
+      />
     </Stack.Navigator>
   );
 };
 const MonthlyStack = () => {
   return (
-    <Stack.Navigator initialRouteName="monthlyStack">
+    <Stack.Navigator initialRouteName="monthlyStack" screenOptions={{ cardStyle: { backgroundColor: '#fff' } }}>
       <Stack.Screen name="monthlyStack" component={Monthly} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
 
-// const RegisterStack = ({ navigation, route }) => {
-//   //등록 페이지에서 아래의 탭 아나보이게 처리하는 로직
-//   useLayoutEffect(() => {
-//     const routeName = getFocusedRouteNameFromRoute(route);
-//     console.log('routeName1', route);
-//     console.log('routeName2', routeName);
-//     console.log('routeName3', navigation);
-//     if (route === '등록') {
-//       navigation.setOptions({ tabBarStyle: { display: 'none' } });
-//     }
-//   }, [navigation, route]);
-
-//   return (
-//     <Stack.Navigator initialRouteName="등록1">
-//       <Stack.Screen name="등록1" component={Register} options={{ headerShown: false }} />
-//       {/* <Stack.Screen name="SecondView" component={u} options={{ headerShown: false }} /> */}
-//     </Stack.Navigator>
-//   );
-// };
-
 const AppStatck = ({ navigation, router }) => {
   console.log('===rotuer_app', router);
   return (
     <NavigationContainer independent={true}>
-      <Tab.Navigator screenOptions={({ route }) => ({ headerShown: false })} initialRouteName="weekly">
+      <Tab.Navigator screenOptions={({ route }) => ({ headerShown: false })} initialRouteName="주간">
         <Tab.Screen
-          name="daily"
+          name="일간"
           component={DailyStack}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
@@ -92,7 +92,7 @@ const AppStatck = ({ navigation, router }) => {
           }}
         />
         <Tab.Screen
-          name="weekly"
+          name="주간"
           component={WeeklyStack}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
@@ -101,7 +101,7 @@ const AppStatck = ({ navigation, router }) => {
           }}
         />
         <Tab.Screen
-          name="register"
+          name="등록"
           component={RegisterStack}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
@@ -112,7 +112,7 @@ const AppStatck = ({ navigation, router }) => {
           }}
         />
         <Tab.Screen
-          name="monthly"
+          name="월간"
           component={MonthlyStack}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
@@ -121,7 +121,7 @@ const AppStatck = ({ navigation, router }) => {
           }}
         />
         <Tab.Screen
-          name="more"
+          name="더보기"
           component={More}
           options={{
             tabBarIcon: ({ size, focused, color }) => {

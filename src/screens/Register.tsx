@@ -1,13 +1,7 @@
 import React, { useLayoutEffect, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, View, Button, TextInput } from 'react-native';
 import styled from 'styled-components/native';
-import HeaderGoBack from '../components/common/header/HeaderGoBack';
-
-// const ButtonTest = styled.Button`
-//   width: "100",
-//   height: "100"
-// `;
 
 const Register = ({ navigation, router }) => {
   useEffect(() => {
@@ -16,13 +10,30 @@ const Register = ({ navigation, router }) => {
   }, [navigation, router]);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
-      {/* <HeaderGoBack /> */}
-      <Text> test</Text>
-      <Button title="go back test" onPress={() => navigation.goBack()}></Button>
+    <SafeAreaView style={styles.wrapper}>
+      <TextInput></TextInput>
+      <Text> test1</Text>
+      <Text> test2</Text>
+      <Text> test3</Text>
+      <Text> test4</Text>
+      <Text> test5</Text>
+      {/* <Button title="go back test" onPress={() => navigation.goBack()}></Button> */}
       {/* <Button>test</Button> */}
-    </View>
+    </SafeAreaView>
   );
 };
 
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    flexDirection: 'column',
+    margin: 28,
+    justifyContent: 'flex-start',
+    width: '100%',
+    height: '100%',
+  },
+  input: {
+    
+  }
+});
 export default Register;
