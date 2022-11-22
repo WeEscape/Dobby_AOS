@@ -77,11 +77,19 @@ const MonthlyStack = () => {
   );
 };
 
+const MoreStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="moreStack" screenOptions={{ cardStyle: { backgroundColor: '#fff' } }}>
+      <Stack.Screen name="moreStack" component={More} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+};
+
 const AppStatck = ({ navigation, router }) => {
   console.log('===rotuer_app', router);
   return (
     <NavigationContainer independent={true}>
-      <Tab.Navigator screenOptions={({ route }) => ({ headerShown: false })} initialRouteName="주간">
+      <Tab.Navigator screenOptions={({ route }) => ({ headerShown: false, tabBarActiveTintColor: '#1056FB' })} initialRouteName="주간">
         <Tab.Screen
           name="일간"
           component={DailyStack}
@@ -122,7 +130,7 @@ const AppStatck = ({ navigation, router }) => {
         />
         <Tab.Screen
           name="더보기"
-          component={More}
+          component={MoreStack}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
               return <Image style={styles.tabLogo} source={focused ? More_ON : More_OFF} />;

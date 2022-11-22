@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, View, TextInput, Pressable } from 'react-native';
 
 const More = () => {
   return (
@@ -8,5 +8,9 @@ const More = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  
+})
 
 export default More;
