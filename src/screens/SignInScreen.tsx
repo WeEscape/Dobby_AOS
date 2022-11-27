@@ -14,18 +14,19 @@ import { useAppDispatch } from '../store';
 const $colorWhite = '#ffffff';
 const $TITLEFONTCOLOR = '#414141';
 
-const SignInScreen = () => {
+const SignInScreen = ({ navigation }) => {
   const [result, setResult] = useState();
   const [loading, setLoading] = useState(false);
   const [errorStatus, setErrorStatus] = useState(0);
   const dispatch = useAppDispatch();
-  const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  const isLoggedIn = useSelector((state: RootState) => state.user.access_token);
 
   const signInWithKakao = async (): Promise<void> => {
     // if (loading) {
     //   return;
     // }
     try {
+      await loginWithKakaoAccount();
       const token = await getKakaoProfile();
 
       setResult(token);
@@ -37,26 +38,28 @@ const SignInScreen = () => {
         social_type: 'kakao',
       });
 
-      console.log('response', response);
+      console.log('response', response.data.data);
 
       // setLoading(false);
 
       dispatch(
         userSlice.actions.setToken({
-          access_token: response.data.access_token,
-          refresh_token: response.data.refresh_token,
+          access_token: response.data.data.access_token,
+          refresh_token: response.data.data.refresh_token,
         })
       );
 
-      await EncryptedStorage.setItem('refreshToken', response.data.refreshToken);
+      await EncryptedStorage.setItem('refreshToken', response.data.data.refresh_token);
       Alert.alert('알림', '로그인에 성공했습니다.');
+
+      await navigation.push('Root', { screen: '일간' });
     } catch (err) {
       const axiosError = err as AxiosError;
       if (axiosError.response) {
         setErrorStatus(axiosError.response.status);
 
         console.log('error', axiosError.response);
-        Alert.alert('알림', axiosError.response.data.message);
+        Alert.alert('알림', axiosError.response.data.data.message);
       }
     } finally {
       setLoading(false);
@@ -82,19 +85,19 @@ const SignInScreen = () => {
       console.log('회원가입response', response);
       dispatch(
         userSlice.actions.setUser({
-          user_id: response.data.user_id,
-          social_id: response.data.social_id,
-          social_type: response.data.social_type,
-          user_name: response.data.name,
-          profile_image_url: response.data.profileImageUrl,
-          profile_color: response.data.profile_color,
-          accessToken: response.data.accessToken,
-          is_connect: response.data.is_connect,
-          last_connected_at: response.data.last_connected_at,
-          created_at: response.data.created_at,
-          updated_at: response.data.updated_at,
-          deleted_at: response.data.deleted_at,
-          group_ids: response.data.group_ids,
+          user_id: response.data.data.user_id,
+          social_id: response.data.data.social_id,
+          social_type: response.data.data.social_type,
+          user_name: response.data.data.name,
+          profile_image_url: response.data.data.profileImageUrl,
+          profile_color: response.data.data.profile_color,
+          accessToken: response.data.data.accessToken,
+          is_connect: response.data.data.is_connect,
+          last_connected_at: response.data.data.last_connected_at,
+          created_at: response.data.data.created_at,
+          updated_at: response.data.data.updated_at,
+          deleted_at: response.data.data.deleted_at,
+          group_ids: response.data.data.group_ids,
         })
       );
     }

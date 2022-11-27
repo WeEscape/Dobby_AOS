@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createAppContainer } from 'react-navigation';
 import { Alert } from 'react-native';
+import { NativeBaseProvider } from 'native-base';
 
 import AppStatck from './AppStack';
 import AuthStack from './AuthStack';
@@ -12,26 +13,28 @@ import { useAppDispatch } from '../store';
 import { useSelector } from 'react-redux';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import SplashScreen from 'react-native-splash-screen';
+import { RootState } from 'store/reducer';
 
 const Stack = createStackNavigator();
 
 const Router = () => {
   //로그인 스토어에 로그인 정보 return 해주고 있으면 home 스크린 없으면 auth스크린으로 이동
-  // const [authData, setAuthData] = useState(false);
+  const [authData, setAuthData] = useState(false);
   const dispatch = useAppDispatch();
-  const isLoggedIn = useSelector((state: RootState) => state.user);
+  const isLoggedIn = useSelector((state: RootState) => state.user.access_token);
 
   SplashScreen.hide();
+  // const token = EncryptedStorage.getItem('refreshToken');
+  console.log('router_token1', EncryptedStorage.getItem('refreshToken'));
 
   useEffect(() => {
     const getTokenAndRefresh = async () => {
       const token = EncryptedStorage.getItem('refreshToken');
-      console.log('isLoggedIn1', isLoggedIn);
-      console.log('router_token', userSlice);
+      console.log('router_token2', token);
     };
     getTokenAndRefresh();
     // setAuthData;
-  }, [dispatch]);
+  }, [dispatch, isLoggedIn]);
 
   //router단으로 올리기
   //router 단에서 스플레쉬 이미지 추가
@@ -77,16 +80,19 @@ const Router = () => {
   //   };
   //   getTokenAndRefresh();
   // }, [dispatch]);
+  console.log('isLoggedIn1', isLoggedIn);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={({ route }) => ({ headerShown: false })} initialRouteName="signIn">
-        {/* {authData ? (
+      <NativeBaseProvider>
+        <Stack.Navigator screenOptions={({ route }) => ({ headerShown: false })} initialRouteName="signIn">
+          {/* {authData ? ( */}
           <Stack.Screen name="Root" component={AppStatck} options={{ headerShown: false }} />
-        ) : ( */}
-        <Stack.Screen name="signIn" component={AuthStack} options={{ headerShown: false }} />
-        {/* )} */}
-      </Stack.Navigator>
+          {/* ) : ( */}
+          <Stack.Screen name="signIn" component={AuthStack} options={{ headerShown: false }} />
+          {/* )} */}
+        </Stack.Navigator>
+      </NativeBaseProvider>
     </NavigationContainer>
   );
 };

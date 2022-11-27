@@ -88,57 +88,57 @@ const MoreStack = () => {
 const AppStatck = ({ navigation, router }) => {
   console.log('===rotuer_app', router);
   return (
-    <NavigationContainer independent={true}>
-      <Tab.Navigator screenOptions={({ route }) => ({ headerShown: false, tabBarActiveTintColor: '#1056FB' })} initialRouteName="주간">
-        <Tab.Screen
-          name="일간"
-          component={DailyStack}
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return <Image style={styles.tabLogo} source={focused ? Daily_ON : Daily_OFF} />;
-            },
-          }}
-        />
-        <Tab.Screen
-          name="주간"
-          component={WeeklyStack}
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return <Image style={styles.tabLogo} source={focused ? Weekly_ON : Weekly_OFF} />;
-            },
-          }}
-        />
-        <Tab.Screen
-          name="등록"
-          component={RegisterStack}
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return <Image style={styles.tabLogo} source={focused ? Register_ON : Register_OFF} />;
-            },
-            headerShown: false,
-            tabBarStyle: { display: 'none' },
-          }}
-        />
-        <Tab.Screen
-          name="월간"
-          component={MonthlyStack}
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return <Image style={styles.tabLogo} source={focused ? Monthly_ON : Monthly_OFF} />;
-            },
-          }}
-        />
-        <Tab.Screen
-          name="더보기"
-          component={MoreStack}
-          options={{
-            tabBarIcon: ({ size, focused, color }) => {
-              return <Image style={styles.tabLogo} source={focused ? More_ON : More_OFF} />;
-            },
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    // <NavigationContainer independent={true}>
+    <Tab.Navigator screenOptions={({ route }) => ({ headerShown: false, tabBarActiveTintColor: '#1056FB', unmountOnBlur: true })} initialRouteName="일간">
+      <Tab.Screen
+        name="일간"
+        component={DailyStack}
+        options={{
+          tabBarIcon: ({ size, focused, color }) => {
+            return <Image style={styles.tabLogo} source={focused ? Daily_ON : Daily_OFF} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name="주간"
+        component={WeeklyStack}
+        options={{
+          tabBarIcon: ({ size, focused, color }) => {
+            return <Image style={styles.tabLogo} source={focused ? Weekly_ON : Weekly_OFF} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name="등록"
+        component={RegisterStack}
+        options={{
+          tabBarIcon: ({ size, focused, color }) => {
+            return <Image style={styles.tabLogo} source={focused ? Register_ON : Register_OFF} />;
+          },
+          headerShown: false,
+          tabBarStyle: { display: 'none' },
+        }}
+      />
+      <Tab.Screen
+        name="월간"
+        component={MonthlyStack}
+        options={{
+          tabBarIcon: ({ size, focused, color }) => {
+            return <Image style={styles.tabLogo} source={focused ? Monthly_ON : Monthly_OFF} />;
+          },
+        }}
+      />
+      <Tab.Screen
+        name="더보기"
+        component={MoreStack}
+        options={{
+          tabBarIcon: ({ size, focused, color }) => {
+            return <Image style={styles.tabLogo} source={focused ? More_ON : More_OFF} />;
+          },
+        }}
+      />
+    </Tab.Navigator>
+    // </NavigationContainer>
   );
 };
 
