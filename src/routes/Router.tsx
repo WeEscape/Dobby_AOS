@@ -26,6 +26,7 @@ const Router = () => {
   SplashScreen.hide();
   // const token = EncryptedStorage.getItem('refreshToken');
   console.log('router_token1', EncryptedStorage.getItem('refreshToken'));
+  console.log('isLoggedIn', isLoggedIn);
 
   useEffect(() => {
     const getTokenAndRefresh = async () => {
@@ -80,7 +81,6 @@ const Router = () => {
   //   };
   //   getTokenAndRefresh();
   // }, [dispatch]);
-  console.log('isLoggedIn1', isLoggedIn);
 
   return (
     <NavigationContainer>

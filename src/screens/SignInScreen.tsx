@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
-import { StyleSheet, ActivityIndicator, View, Alert } from 'react-native';
+import { StyleSheet, ActivityIndicator, View, Alert, processColor } from 'react-native';
 import { login, loginWithKakaoAccount, logout, getProfile as getKakaoProfile, unlink, KakaoProfile } from '@react-native-seoul/kakao-login';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { Image, Text, Button, Icon } from '@rneui/themed';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import IconImage from '../assets/icon/logo.png';
 import KakaoLogoImage from '../assets/icon/kakao_logo.png';
-import { API_HOST } from '@env';
+import { API_HOST, CLINET_ID } from '@env';
 import userSlice from '../slices/user';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store';
@@ -103,6 +104,25 @@ const SignInScreen = ({ navigation }) => {
     }
   }, [errorStatus]);
 
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: CLINET_ID,
+      offlineAccess: true,
+      profileImageSize: 120,
+    });
+  }, []);
+
+  const GoogleSignIn = async () => {
+    try {
+      await GoogleSignIn.hasPlayServices();
+      const userInfo = await GoogleSignIn.signIn();
+      console.log('==google', userInfo);
+    } catch (error) {
+      console.log('===googleError', error);
+    } finally {
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={IconImage} />
@@ -127,6 +147,26 @@ const SignInScreen = ({ navigation }) => {
       >
         <Image style={styles.kakaoIcon} source={KakaoLogoImage} />
         카카오로 계속하기
+      </Button>
+      <Button
+        title="구글로 계속하기"
+        buttonStyle={{
+          borderColor: 'rgb(0, 0, 0)',
+          borderRadius: 12,
+        }}
+        titleStyle={{ color: '#414141', fontFamily: 'Noto Sans KR', fontSize: 14, fontWeight: '700' }}
+        containerStyle={{
+          width: 300,
+          marginHorizontal: 50,
+          marginVertical: 15,
+        }}
+        disabled={loading}
+        onPressIn={() => {
+          GoogleSignIn();
+        }}
+      >
+        {/* <Image style={styles.kakaoIcon} source={KakaoLogoImage} /> */}
+        구글로 계속하기
       </Button>
     </View>
   );
@@ -156,7 +196,7 @@ const styles = StyleSheet.create({
   kakaoIcon: {
     width: 16,
     height: 14,
-    paddingRight: 10,
+    marginRight: 10,
   },
   text: {
     paddingLeft: 20,
