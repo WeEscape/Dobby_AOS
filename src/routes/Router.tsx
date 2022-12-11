@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createAppContainer } from 'react-navigation';
 import { Alert } from 'react-native';
 import { NativeBaseProvider } from 'native-base';
+import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import { API_HOST, GOOGLE_CLIENT_ID } from '@env';
 
 import AppStatck from './AppStack';
 import AuthStack from './AuthStack';
@@ -16,6 +18,11 @@ import SplashScreen from 'react-native-splash-screen';
 import { RootState } from 'store/reducer';
 
 const Stack = createStackNavigator();
+
+// GoogleSignin.configure({
+//   webClientId: `${GOOGLE_CLIENT_ID}`,
+//   offlineAccess: false,
+// });
 
 const Router = () => {
   //로그인 스토어에 로그인 정보 return 해주고 있으면 home 스크린 없으면 auth스크린으로 이동

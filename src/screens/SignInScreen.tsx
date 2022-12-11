@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 import { StyleSheet, ActivityIndicator, View, Alert, processColor } from 'react-native';
 import { login, loginWithKakaoAccount, logout, getProfile as getKakaoProfile, unlink, KakaoProfile } from '@react-native-seoul/kakao-login';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { Image, Text, Button, Icon } from '@rneui/themed';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import IconImage from '../assets/icon/logo.png';
 import KakaoLogoImage from '../assets/icon/kakao_logo.png';
-import { API_HOST, CLINET_ID } from '@env';
+import { API_HOST, GOOGLE_CLIENT_ID } from '@env';
 import userSlice from '../slices/user';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store';
@@ -105,8 +105,9 @@ const SignInScreen = ({ navigation }) => {
   }, [errorStatus]);
 
   useEffect(() => {
+    console.log('==GOOGLE_CLIENT_ID', GOOGLE_CLIENT_ID);
     GoogleSignin.configure({
-      webClientId: CLINET_ID,
+      webClientId: `${GOOGLE_CLIENT_ID}`,
       offlineAccess: true,
       profileImageSize: 120,
     });
@@ -114,8 +115,8 @@ const SignInScreen = ({ navigation }) => {
 
   const GoogleSignIn = async () => {
     try {
-      await GoogleSignIn.hasPlayServices();
-      const userInfo = await GoogleSignIn.signIn();
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
       console.log('==google', userInfo);
     } catch (error) {
       console.log('===googleError', error);
@@ -168,6 +169,12 @@ const SignInScreen = ({ navigation }) => {
         {/* <Image style={styles.kakaoIcon} source={KakaoLogoImage} /> */}
         구글로 계속하기
       </Button>
+      <GoogleSigninButton
+        onPress={() => {
+          GoogleSignIn();
+        }}
+        style={{ width: 100, height: 100 }}
+      />
     </View>
   );
 };
